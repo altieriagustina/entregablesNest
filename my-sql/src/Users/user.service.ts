@@ -16,11 +16,11 @@ export class UserService {
   private userRepository: Repository<User>,
 ) { }
 
-  getHelloService(): Promise<User[]> {
+  getUsersService(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async postHelloService(newUser: User): Promise<string> {
+  async postUsersService(newUser: User): Promise<string> {
     console.log("Nuevo usuario:", newUser);
 
     await this.userRepository.save(newUser);
@@ -30,21 +30,23 @@ export class UserService {
   }
 
 
-  // MODIFICAR
+  // BORRAR
 
-  deleteHelloService(idUser: number): string {
-    const index = this.users.findIndex(user => user.id === idUser);
-    if (index !== -1) {
-      this.users.splice(index, 1);
+  async deleteUsersService(idUser: number): Promise<string> {
+    const user = await this.userRepository.findOne({ where: { id: idUser } });
+    if (user) {
+      await this.userRepository.remove(user);
       return 'Usuario eliminado con exito! ✅';
     }
     return 'Usuario no encontrado! ❌';
   }
 
-  putHelloService(updateUser: User): string {
-    const index = this.users.findIndex(user => user.id === updateUser.id);
-    if (index !== -1) {
-      this.users[index] = updateUser;
+  // MODIFICAR
+
+  async putUsersService(updateUser: User): Promise<string> {
+    const user = await this.userRepository.findOne({ where: { id: updateUser.id } });
+    if (user) {
+      await this.userRepository.save(updateUser);
       return 'Usuario actualizado con exito! ✅';
     }
     return 'Usuario no encontrado! ❌';

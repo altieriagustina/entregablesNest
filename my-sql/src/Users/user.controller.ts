@@ -6,7 +6,7 @@ import { User } from './user.entity';
 
 @Controller('/usuarios')
 export class UserController {
-  
+
   private readonly userService: UserService;
 
   constructor(userService: UserService) {
@@ -14,22 +14,23 @@ export class UserController {
   }
 
   @Get()//obtener
-  getHelloController(): Promise<User[]> {
-    return this.userService.getHelloService();
+  getUsers(): Promise<User[]> {
+    return this.userService.getUsersService();
   }
 
   @Post()//agregar
-  postHelloController(@Body() newUser: User): Promise<string> {
-    return this.userService.postHelloService(newUser);
+  postUsers(@Body() newUser: User): Promise<string> {
+    return this.userService.postUsersService(newUser);
   }
 
   @Delete(':id')//eliminar
-  deleteHelloController(@Param('id') idUser: number): string {
-    return this.userService.deleteHelloService(Number(idUser)); //convierte el parámetro a número antes de pasarlo al servicio
+  deleteUsers(@Param('id') idUser: number): Promise<string> {
+    return this.userService.deleteUsersService(Number(idUser)); //convierte el parámetro a número antes de pasarlo al servicio
   }
 
   @Put(':id')//modificar
-  putHelloController(@Param('id') idUser: number, @Body() updateUser: User): string {
-    return this.userService.putHelloService(updateUser);
+  putUsers(@Param('id') idUser: number, @Body() updateUser: User): Promise<string> {
+    updateUser.id = Number(idUser); // Asegura que el ID del usuario a actualizar sea el mismo que el ID proporcionado en la URL
+    return this.userService.putUsersService(updateUser);
   }
 }
