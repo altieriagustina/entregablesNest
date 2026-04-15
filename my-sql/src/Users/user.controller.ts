@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Param } from '@nestjs/common';
 import { User } from './user.entity';
+import { UserDTO } from './dto/user.dto';
 
 
 @Controller('/usuarios')
@@ -19,7 +20,7 @@ export class UserController {
   }
 
   @Post()//agregar
-  postUsers(@Body() newUser: User): Promise<string> {
+  postUsers(@Body() newUser: UserDTO): Promise<string> {
     return this.userService.postUsersService(newUser);
   }
 
@@ -29,7 +30,7 @@ export class UserController {
   }
 
   @Put(':id')//modificar
-  putUsers(@Param('id') idUser: number, @Body() updateUser: User): Promise<string> {
+  putUsers(@Param('id') idUser: number, @Body() updateUser: UserDTO): Promise<string> {
     updateUser.id = Number(idUser); // Asegura que el ID del usuario a actualizar sea el mismo que el ID proporcionado en la URL
     return this.userService.putUsersService(updateUser);
   }
